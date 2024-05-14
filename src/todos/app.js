@@ -5,6 +5,7 @@ import { renderTodos } from './use-cases';
 const ElementIDs = {
 	TodoList: '.todo-list',
 	NewTodoInput: '#new-todo-input',
+	DeleteTodo: '.destroy',
 };
 
 /**
@@ -27,6 +28,7 @@ export const App = (elementId) => {
 
 	const newDescriptionInput = document.querySelector(ElementIDs.NewTodoInput);
 	const todoListUL = document.querySelector(ElementIDs.TodoList);
+	const deleteTodo = document.querySelector(ElementIDs.DeleteTodo);
 
 	newDescriptionInput.addEventListener('keyup', (event) => {
 		if (event.keyCode !== 13) return;
@@ -36,9 +38,18 @@ export const App = (elementId) => {
 		displayTodos();
 	});
 
-	todoListUL.addEventListener('clcik', (event) => {
+	todoListUL.addEventListener('click', (event) => {
 		const element = event.target.closest('[data-id]');
 		todoStore.toggleTodo(element.getAttribute('data-id'));
+		displayTodos();
+	});
+
+	todoListUL.addEventListener('click', (event) => {
+		const isDestroyElement = event.target.className === 'destroy';
+		const element = event.target.closest('[data-id]');
+		if (!element || !isDestroyElement) return;
+
+		todoStore.deleteTodo(element.getAttribute('data-id'));
 		displayTodos();
 	});
 };
