@@ -28,7 +28,6 @@ export const App = (elementId) => {
 
 	const newDescriptionInput = document.querySelector(ElementIDs.NewTodoInput);
 	const todoListUL = document.querySelector(ElementIDs.TodoList);
-	const deleteTodo = document.querySelector(ElementIDs.DeleteTodo);
 
 	newDescriptionInput.addEventListener('keyup', (event) => {
 		if (event.keyCode !== 13) return;
@@ -45,11 +44,9 @@ export const App = (elementId) => {
 	});
 
 	todoListUL.addEventListener('click', (event) => {
-		const isDestroyElement = event.target.className === 'destroy';
-		const element = event.target.closest('[data-id]');
-		if (!element || !isDestroyElement) return;
-
-		todoStore.deleteTodo(element.getAttribute('data-id'));
+		if (!event.target.classList.contains('destroy')) return;
+		const element = event.target.parentElement.parentElement.getAttribute('data-id');
+		todoStore.deleteTodo(element);
 		displayTodos();
 	});
 };
