@@ -36,7 +36,7 @@ Para correr el proyecto localmente, sigue estos pasos:
 
 1. Clona este repositorio:
     ```bash
-    git clone [URL_DEL_REPOSITORIO]
+    git clone [git@github.com:Kuro-98/todolist-vite.git]
     ```
 2. Navega al directorio del proyecto:
     ```bash
