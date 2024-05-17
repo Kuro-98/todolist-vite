@@ -1,12 +1,13 @@
 import todoStore, { Filters } from '../store/todo.store';
 import html from './app.html?raw';
-import { renderTodos } from './use-cases';
+import { renderTodos, renderPending } from './use-cases';
 
 const ElementIDs = {
 	TodoList: '.todo-list',
 	NewTodoInput: '#new-todo-input',
 	DeleteDone: '.clear-completed',
 	TodoFilters: '.filtro',
+	PendingCountLabel: '#pending-count',
 };
 
 /**
@@ -18,6 +19,11 @@ export const App = (elementId) => {
 	const displayTodos = () => {
 		const todos = todoStore.getTodos(todoStore.getCurrentFilter());
 		renderTodos(ElementIDs.TodoList, todos);
+		updatePendingCount();
+	};
+
+	const updatePendingCount = () => {
+		renderPending(ElementIDs.PendingCountLabel);
 	};
 
 	(() => {
@@ -66,14 +72,14 @@ export const App = (elementId) => {
 				case 'Todos':
 					todoStore.setFilter(Filters.All);
 					break;
+				case 'Pendientes':
+					todoStore.setFilter(Filters.Pending);
+					break;
 				case 'Completados':
 					todoStore.setFilter(Filters.Completed);
 					break;
-				case 'Pendientes':
-					todoStore.setFilter(Filters.Pending);
-				default:
-					break;
 			}
+			displayTodos();
 		});
 	});
 };
